@@ -39,3 +39,6 @@ async def process_start(message:Message):
 dp.message(Command(commands='/help'))
 async def process_help(message:Message):
     await message.answer('')
+
+#Реализуем хэндлер /stat - для вывода статистики пользователя.
+
