@@ -36,9 +36,32 @@ async def process_start(message:Message):
                          Если вдруг ты забудешь правила введи /help.''')
 
 #Реализуем хэндлер /help.
-dp.message(Command(commands='/help'))
+@dp.message(Command(commands='help'))
 async def process_help(message:Message):
-    await message.answer('')
+    await message.answer('h')
 
 #Реализуем хэндлер /stat - для вывода статистики пользователя.
+@dp.message(Command(commands='stat'))
+async def process_stat(message:Message):
+    await message.answer(f'Количество сыгранных игр {user["count_game"]}, количество побед {user["count_win"]}')
 
+#Реализуем хэндлер /cancel - для выхода из игры.
+@dp.message(Command(commands='cancel'))
+async def process_cancel(message:Message):
+    if user['in_game']:
+        user['in_game']=False
+        await message.answer('Игра окончена. Так жаль.')
+        await message.answer('Если захочешь снова играть введи \"Игра\"')
+    else:
+        await message.answer('Мы ещё не играем.')
+
+#Реализуем функцию по согласию пользователя на игру.
+@dp.message(F.text.lower().in_['да', 'давай', 'сыграем', 'игра', 'давай сыграем', 'сыграть'])
+async def process_yes(message:Message):
+    if not user['in_game']:
+        user['in_game']=True
+        user['attempts']==ATTEMPTS
+        
+
+if __name__=='__main__':
+    dp.run_polling(bot)
