@@ -87,28 +87,28 @@ async def process_guess_the_number(message:Message):
             user['count_game']+=1
             user['count_win']+=1
             user['in_game']=False
-            message.answer('Ура!!! Ты угадал!')
+            await message.answer('Ура!!! Ты угадал!')
         elif user['secret_number']>int(message.text):
             user['attempts']-=1
-            message.answer('Загаданное число больше')
+            await message.answer('Загаданное число больше')
         elif user['secret_number']<int(message.text):
             user['attempts']-=1
-            message.answer('Загаданное число меньше')
+            await message.answer('Загаданное число меньше')
         if user['attempts']==0:
             user['in_game']=False
             user['count_game']+=1
-            message.answer('Ты не угадал. Попробуй ещё раз.')
+            await message.answer('Ты не угадал. Попробуй ещё раз.')
     else:
-        message.answer('Мы еще не играем.')
+        await message.answer('Мы еще не играем.')
 
 #Функция которая отлавливает все оставшиеся варианты.
 @dp.message()
 async def process_all(message:Message):
     if user['in_game']:
-        message.answer(f'Мы с Вами играем. Введите число от 1 до 100.'
+        await message.answer(f'Мы с Вами играем. Введите число от 1 до 100.'
                        f'Или команду /cancel.')
     else:
-        message.answer('Я могу только играть в игру "Угадай число"')
+        await message.answer('Я могу только играть в игру "Угадай число"')
 
 if __name__=='__main__':
     dp.run_polling(bot)
